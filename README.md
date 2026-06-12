@@ -11,9 +11,13 @@
 ```
 ├── backend/
 │   └── main.py
+│   └── requirements.txt
+│   └── Dockerfile
 ├── frontend/
 │   └── main.py
-├── requirements.txt
+│   └── requirements.txt
+│   └── Dockerfile
+├── docker-compose.yml
 └── README.md
 ```
 
