@@ -32,23 +32,6 @@ pip install -r requirements.txt
 uvicorn backend.main:app --host 0.0.0.0 --port 8000
 ```
 
-## API
-
-# `POST /detect`
-
-Детекция объектов на изображении.
-
-| Параметр | Тип | Описание |
-|---|---|---|---|
-| `file` | файл | Изображение (jpg, png) |
-| `model_name` | string | Модель: `nano` или `medium` |
-| `conf` | float | Порог уверенности (0.0–1.0) |
-
-
-## Классы
-
-`car`  `van`  `truck` `awning-tricycle`  `bus`  `motor`
-
 ### 4. Запустить фронтенд
 
 ```bash
@@ -60,3 +43,21 @@ streamlit run main.py
 ```bash
 docker compose up --build
 ```
+
+
+## API
+
+# `POST /detect`
+
+Детекция объектов на изображении.
+
+| Параметр | Тип | Описание |
+|---|---|---|
+| `file` | файл | Изображение (jpg, png) |
+| `model_name` | string | Модель: `nano` или `medium` |
+| `conf` | float | Порог уверенности (0.0–1.0) |
+
+
+## Классы
+
+`car`  `van`  `truck` `awning-tricycle`  `bus`  `motor`
