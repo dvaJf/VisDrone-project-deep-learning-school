@@ -28,6 +28,7 @@
 ```bash
 pip install -r requirements.txt
 ```
+
 При первом старте веса скачаются автоматически и закешируются локально.
 
 ### 3. Запустить сервер
@@ -39,7 +40,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000
 ### 4. Запустить фронтенд
 
 ```bash
-streamlit run main.py 
+streamlit run main.py
 ```
 
 ### Запустить через докер
@@ -48,6 +49,11 @@ streamlit run main.py
 docker compose up --build
 ```
 
+### Настройка env
+
+Переименовать .env_test в .env
+Вставить свой токен в HF_TOKEN=
+Вставить свою сылку на бекенд в BACKEND_URL=
 
 ## API
 
@@ -55,13 +61,19 @@ docker compose up --build
 
 Детекция объектов на изображении.
 
-| Параметр | Тип | Описание |
-|---|---|---|
-| `file` | файл | Изображение (jpg, png) |
+| Параметр     | Тип    | Описание                    |
+| ------------ | ------ | --------------------------- |
+| `file`       | файл   | Изображение (jpg, png)      |
 | `model_name` | string | Модель: `nano` или `medium` |
-| `conf` | float | Порог уверенности (0.0–1.0) |
+| `conf`       | float  | Порог уверенности (0.0–1.0) |
 
+### ML
 
 ## Классы
 
-`car`  `van`  `truck` `awning-tricycle`  `bus`  `motor`
+`car` `van` `truck` `awning-tricycle` `bus` `motor`
+
+## Модели
+
+nano - yolov8m - mAP50 0.415
+medium - yolov11x mAP50 0.558
