@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - weights_cache:/app/weights
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - YOLO_CONFIG_DIR=/tmp/Ultralytics
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+
+volumes:
+  weights_cache:

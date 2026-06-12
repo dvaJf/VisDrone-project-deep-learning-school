@@ -26,7 +26,9 @@ async def detect(file: UploadFile = File(...), model_name: str = "medium", conf:
     image = Image.open(io.BytesIO(await file.read()))
     results = models[model_name].predict(np.array(image), conf=conf, verbose=False)[0]
 
-    _, buf = cv2.imencode(".jpg", results.plot())
+    plotted = results.plot()
+    plotted_rgb = cv2.cvtColor(plotted, cv2.COLOR_BGR2RGB)
+    _, buf = cv2.imencode(".jpg", plotted_rgb)
 
     return {
         "total": len(results.boxes),

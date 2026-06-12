@@ -4,8 +4,9 @@ import base64
 from PIL import Image
 import io
 
-BACKEND_URL = "http://localhost:8000"
+import os
 
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 with st.sidebar:
 
@@ -36,9 +37,9 @@ if uploaded_file:
 
     with col1:
         st.subheader("Оригинал")
-        st.image(uploaded_file, use_container_width=True)
+        st.image(uploaded_file, width='stretch')
 
-    if st.button("Запустить детекцию", use_container_width=True):
+    if st.button("Запустить детекцию", width='stretch'):
 
         with st.spinner("Обрабатываем..."):
             try:
@@ -55,7 +56,7 @@ if uploaded_file:
                         st.subheader("Результат")
                         img_bytes = base64.b64decode(data["image"])
                         result_img = Image.open(io.BytesIO(img_bytes))
-                        st.image(result_img, use_container_width=True)
+                        st.image(result_img, width='stretch')
 
                     st.divider()
                     st.subheader(f"Найдено объектов: {data['total']}")
