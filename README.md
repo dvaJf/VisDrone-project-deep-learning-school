@@ -1,6 +1,7 @@
 Веб-приложение для детекции автотрансопрта на изображениях с дронов на основе датасета VisDrone.
 
-Тут можно протестировать https://frontend-0abu.onrender.com/
+Тут можно протестировать https://cqswte5w2xws6ccceudy4r.streamlit.app/
+бекенд тут https://garsdfgtdfgh-dls.hf.space/
 
 ## Стек
 
