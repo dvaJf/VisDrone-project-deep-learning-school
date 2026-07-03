@@ -52,41 +52,39 @@ if img_data is not None:
         st.subheader("Оригинал")
         st.image(img_data, width='stretch')
 
-    if st.button("Запустить детекцию", width='stretch'):
+    with st.spinner("Обрабатываем..."):
+        try:
+            response = requests.post(
+                f"{BACKEND_URL}/detect",
+                files={"file": img_data},
+                params={"model_name": model_name, "conf": conf}
+            )
 
-        with st.spinner("Обрабатываем..."):
-            try:
-                response = requests.post(
-                    f"{BACKEND_URL}/detect",
-                    files={"file": img_data},
-                    params={"model_name": model_name, "conf": conf}
-                )
+            if response.status_code == 200:
+                data = response.json()
 
-                if response.status_code == 200:
-                    data = response.json()
+                with col2:
+                    st.subheader("Результат")
+                    img_bytes = base64.b64decode(data["image"])
+                    result_img = Image.open(io.BytesIO(img_bytes))
+                    st.image(result_img, width='stretch')
 
-                    with col2:
-                        st.subheader("Результат")
-                        img_bytes = base64.b64decode(data["image"])
-                        result_img = Image.open(io.BytesIO(img_bytes))
-                        st.image(result_img, width='stretch')
+                st.divider()
+                st.subheader(f"Найдено объектов: {data['total']}")
 
-                    st.divider()
-                    st.subheader(f"Найдено объектов: {data['total']}")
+                class_counts = {}
+                for det in data["detections"]:
+                    name = det["class"]
+                    class_counts[name] = class_counts.get(name, 0) + 1
 
-                    class_counts = {}
-                    for det in data["detections"]:
-                        name = det["class"]
-                        class_counts[name] = class_counts.get(name, 0) + 1
+                if class_counts:
+                    cols = st.columns(len(class_counts))
+                    for i, (cls, count) in enumerate(class_counts.items()):
+                        with cols[i]:
+                            st.metric(label=cls, value=count)
 
-                    if class_counts:
-                        cols = st.columns(len(class_counts))
-                        for i, (cls, count) in enumerate(class_counts.items()):
-                            with cols[i]:
-                                st.metric(label=cls, value=count)
+            else:
+                st.error(f"Ошибка сервера: {response.status_code}")
 
-                else:
-                    st.error(f"Ошибка сервера: {response.status_code}")
-
-            except requests.exceptions.ConnectionError:
-                st.error("Не могу подключиться к серверу.")
+        except requests.exceptions.ConnectionError:
+            st.error("Не могу подключиться к серверу.")
