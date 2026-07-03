@@ -27,6 +27,9 @@ with st.sidebar:
     )
 
 
+st.title("Детекция автомобилей")
+st.info("Подсказка: загрузите фото машин на дороге")
+
 uploaded_file = st.file_uploader(
     "Загрузи изображение",
     type=["jpg", "jpeg", "png"]
