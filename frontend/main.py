@@ -13,6 +13,7 @@ with st.sidebar:
     model_name = st.radio(
         "Выберите модель",
         options=["nano", "medium"],
+        index=1,
         captions=[
             "Быстрая",
             "Точная"
@@ -35,12 +36,21 @@ uploaded_file = st.file_uploader(
     type=["jpg", "jpeg", "png"]
 )
 
-if uploaded_file:
+img_data = None
+if uploaded_file is not None:
+    img_data = uploaded_file.getvalue()
+else:
+    default_img_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "маины2.jpg")
+    if os.path.exists(default_img_path):
+        with open(default_img_path, "rb") as f:
+            img_data = f.read()
+
+if img_data is not None:
     col1, col2 = st.columns(2)
 
     with col1:
         st.subheader("Оригинал")
-        st.image(uploaded_file, width='stretch')
+        st.image(img_data, width='stretch')
 
     if st.button("Запустить детекцию", width='stretch'):
 
@@ -48,7 +58,7 @@ if uploaded_file:
             try:
                 response = requests.post(
                     f"{BACKEND_URL}/detect",
-                    files={"file": uploaded_file.getvalue()},
+                    files={"file": img_data},
                     params={"model_name": model_name, "conf": conf}
                 )
 
